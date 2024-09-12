@@ -1,14 +1,23 @@
 #Loading API Key
 from dotenv import load_dotenv
-
 load_dotenv(".venv/.env")
 
+#Initiating client (the one on RPi)
+
+import chromadb
+
+client=chromadb.HttpClient(
+    host="https://better-skink-promoted.ngrok-free.app",
+    port=8000
+
+)
 #Initiating vectorestore
 
 from langchain_chroma import Chroma
 from langchain_openai import OpenAIEmbeddings
 
-vectorstore = Chroma(embedding_function=OpenAIEmbeddings(show_progress_bar=True), persist_directory="..\\embeddedBooksDB")
+
+vectorstore = Chroma(client=client, embedding_function=OpenAIEmbeddings(show_progress_bar=True))
 
 #Initiating text splitter
 
@@ -23,17 +32,17 @@ books_in_folder=os.listdir("../TheBooks/Pdf Books")
 
 #Opening existing_books_file or creating one if it doesn't exist
 
-files_in_database=os.listdir("../embeddedBooksDB")
+files_in_database=os.listdir()
 
 if "existing_books_file.txt" in files_in_database:
         
-    existing_books_file=open("../embeddedBooksDB/existing_books_file.txt",'r')
+    existing_books_file=open("./existing_books_file.txt",'r')
     existing_books=existing_books_file.readlines()
     existing_books_file.close()
 
 else:
 
-    existing_books_file=open("../embeddedBooksDB/existing_books_file.txt",'x')
+    existing_books_file=open("./existing_books_file.txt",'x')
     existing_books=["no existing books yet"]
     existing_books_file.close()
 
@@ -61,7 +70,7 @@ for book in books_to_be_added:
 
     #Adding book to existing books record
 
-    existing_books_file=open("../embeddedBooksDB/existing_books_file.txt",'a')
+    existing_books_file=open("./existing_books_file.txt",'a')
     existing_books_file.write(book+'\n')
     existing_books_file.close()
 
