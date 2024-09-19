@@ -65,6 +65,7 @@ def get_PDF_files() -> list:
 
     return files
 
+#TODO upload_file
 def download_file(book) -> None:
     
     try:
@@ -120,7 +121,8 @@ def get_books_to_be_added():
         else:
             books_to_be_added.append(book)
 
-    return books_to_be_added
+    return books_to_be_added 
+    #TODO return only if there are books to be added, else raise exception that there are no books to be added
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
@@ -131,9 +133,9 @@ def LoadBookAndSplit(book):
 
     print(f"... Loading '{book['name']}' ... \n")
 
-    download_file(book)
+    download_file(book) #TODO Check local storage before downloading
 
-    book_path = f'../TheBooks/Pdf Books/{book['name']}' #TODO implement downloading and loading from drive
+    book_path = f'../TheBooks/Pdf Books/{book['name']}' 
     loader = PyPDFLoader(book_path)
 
     docs = loader.load()

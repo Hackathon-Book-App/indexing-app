@@ -1,3 +1,5 @@
+#TODO epub, mobi, audiobook, grafic novels support
+
 #Getting book titles to be added
 
 from DriveUtils import get_books_to_be_added
