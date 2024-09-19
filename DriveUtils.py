@@ -2,13 +2,14 @@ import os
 import io
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
+from langchain_community.document_loaders import PyPDFLoader
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaIoBaseDownload
+
 SCOPES = ["https://www.googleapis.com/auth/drive"]
 
-#TODO Centralize service init
 def DriveAuth():
 
     creds = None
@@ -31,12 +32,14 @@ def DriveAuth():
             token.write(creds.to_json())
     return creds
 
+#Service init
 
 creds=DriveAuth()
+service = build("drive", "v3",credentials=creds)
+
 def get_PDF_files() -> list:
     
     try:
-        service = build("drive", "v3",credentials=creds)
         files = []
         page_token = None
         while True:
@@ -66,8 +69,6 @@ def download_file(book) -> None:
     
     try:
     # create drive api client
-        service = build("drive", "v3", credentials=creds)
-
         file_id = book['id']
 
         # pylint: disable=maybe-no-member
@@ -120,3 +121,27 @@ def get_books_to_be_added():
             books_to_be_added.append(book)
 
     return books_to_be_added
+
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+
+def LoadBookAndSplit(book):
+    #Loadig book PDF
+
+    print(f"... Loading '{book['name']}' ... \n")
+
+    download_file(book)
+
+    book_path = f'../TheBooks/Pdf Books/{book['name']}' #TODO implement downloading and loading from drive
+    loader = PyPDFLoader(book_path)
+
+    docs = loader.load()
+
+    print(f"... Loaded '{book}' ...\n")
+
+    #Spliting, embedding and adding to the vectorstore
+
+    splits = text_splitter.split_documents(docs)
+    
+    return splits
