@@ -1,5 +1,6 @@
 import os
 import io
+import sys
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
 from langchain_community.document_loaders import PyPDFLoader
@@ -32,7 +33,7 @@ def DriveAuth():
             token.write(creds.to_json())
     return creds
 
-#Service init
+# Service init
 
 creds=DriveAuth()
 service = build("drive", "v3",credentials=creds)
@@ -53,8 +54,6 @@ def get_PDF_files() -> list:
                 )
                 .execute()
             )
-            for file in response.get("files",[]):
-                print(f'Found file: {file.get("name")}, {file.get("id")}')
             files.extend(response.get("files", []))
             page_token = response.get("nextPageToken", None)
             if page_token is None:
@@ -98,21 +97,21 @@ def get_books_to_be_added():
 
     files_in_database=os.listdir()
 
-    if "existing_books_file.txt" in files_in_database:
+    if "existing_books_file.txt" not in files_in_database:
 
+        existing_books_file=open("./existing_books_file.txt",'x')
+        existing_books_file.close()
+        return books_in_drive
+
+    else:
         existing_books_file=open("./existing_books_file.txt",'r')
         existing_books=existing_books_file.readlines()
         existing_books_file.close()
 
-    else:
-
-        existing_books_file=open("./existing_books_file.txt",'x')
-        existing_books=["no existing books yet"]
-        existing_books_file.close()
 
     #Checking what books exist in the database 
 
-    books_to_be_added=[]
+    books_to_be_added=list
 
     for book in books_in_drive:
 
@@ -121,8 +120,11 @@ def get_books_to_be_added():
         else:
             books_to_be_added.append(book)
 
-    return books_to_be_added 
-    #TODO return only if there are books to be added, else raise exception that there are no books to be added
+    if books_to_be_added:
+        return books_to_be_added 
+    else:
+        sys.exit("\nNo books to be added")
+    
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
@@ -133,7 +135,12 @@ def LoadBookAndSplit(book):
 
     print(f"... Loading '{book['name']}' ... \n")
 
-    download_file(book) #TODO Check local storage before downloading
+    books_in_folder=os.listdir('../TheBooks/Pdf Books')
+    
+    if book['name'] in books_in_folder:
+        pass
+    else:
+        download_file(book)
 
     book_path = f'../TheBooks/Pdf Books/{book['name']}' 
     loader = PyPDFLoader(book_path)

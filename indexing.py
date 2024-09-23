@@ -1,8 +1,6 @@
 #TODO epub, mobi, audiobook, grafic novels support
 
-#Getting book titles to be added
-
-from DriveUtils import get_books_to_be_added
+from Utils import get_books_to_be_added
 
 books_to_be_added=get_books_to_be_added()
 
@@ -23,7 +21,7 @@ vectorstore = Chroma(client=client, embedding_function=OpenAIEmbeddings(show_pro
 
 #Adding new books to the database   
 
-from DriveUtils import LoadBookAndSplit
+from Utils import LoadBookAndSplit
 
 for book in books_to_be_added:
     
