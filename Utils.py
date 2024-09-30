@@ -111,7 +111,7 @@ def get_books_to_be_added():
 
     #Checking what books exist in the database 
 
-    books_to_be_added=list
+    books_to_be_added=[]
 
     for book in books_in_drive:
 
@@ -140,6 +140,7 @@ def LoadBookAndSplit(book):
     if book['name'] in books_in_folder:
         pass
     else:
+        print(f"Downloading {book['name']}")
         download_file(book)
 
     book_path = f'../TheBooks/Pdf Books/{book['name']}' 
