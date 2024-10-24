@@ -4,11 +4,6 @@ from Utils import get_books_to_be_added
 
 books_to_be_added=get_books_to_be_added()
 
-#Loading API Key
-
-from dotenv import load_dotenv
-load_dotenv(".venv/.env")
-
 #Initiating vectorstore from client (the one on RPi)
 
 import chromadb
