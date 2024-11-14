@@ -1,0 +1,9 @@
+1.optional - daca nu este creat python virtual env
+    1.1pentru a crea python virtual env ruleaza "python -m venv venv" in folderul "book-app/backend"
+    1.2pentru a activa vir env ruleaza "cmd" (iti schimba consola in comand line) si ruleaza ".\venv\Scripts\activate.bat"
+2.optional - daca sunt librarii noi/nu sunt instalate
+    2.0 install microsoft c++ build tools "https://aka.ms/vs/17/release/vs_BuildTools.exe"
+        2.0.1.select the workspace component "desktop development with c++"
+    2.1 ruleaza "pip install -r requirements.txt"
+3.optional - run chroma localy "chroma run --host localhost --port 8000 --path C:\Users\ilise\local_vector_storage"
+4.run the api ""
