@@ -10,7 +10,10 @@ import chromadb
 from langchain_chroma import Chroma
 from langchain_openai import OpenAIEmbeddings
 
-client=chromadb.HttpClient(host="https://widely-proven-bobcat.ngrok-free.app",port=8000)
+#client.host="https://widely-proven-bobcat.ngrok-free.app"
+#client.port=8000
+
+client=chromadb.HttpClient(host="127.0.0.1",port=7000)
 
 vectorstore = Chroma(client=client, embedding_function=OpenAIEmbeddings(show_progress_bar=True))
 

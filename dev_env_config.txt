@@ -1,9 +1,37 @@
+FOR BOOK-APP
+BACKEND
 1.optional - daca nu este creat python virtual env
     1.1pentru a crea python virtual env ruleaza "python -m venv venv" in folderul "book-app/backend"
-    1.2pentru a activa vir env ruleaza "cmd" (iti schimba consola in comand line) si ruleaza ".\venv\Scripts\activate.bat"
+    1.2pentru a activa vir env ruleaza "cmd" (iti schimba consola in comand line) si ruleaza ".\.venv\Scripts\activate.bat"
 2.optional - daca sunt librarii noi/nu sunt instalate
     2.0 install microsoft c++ build tools "https://aka.ms/vs/17/release/vs_BuildTools.exe"
         2.0.1.select the workspace component "desktop development with c++"
     2.1 ruleaza "pip install -r requirements.txt"
-3.optional - run chroma localy "chroma run --host localhost --port 8000 --path C:\Users\ilise\local_vector_storage"
-4.run the api ""
+3.optional - run chroma localy
+    3.1.set host and port to:
+        #client.host="127.0.0.1"
+        #client.port=7000
+    3.2. run chroma localy "chroma run --host localhost --port 7000 --path C:\Users\ilise\local_vector_storage"
+4.make OPENAI_API_KEY environment variable
+5.install and configure google cloud API
+6.run the api "fastapi dev apy.py"
+
+FRONTEND
+1.install node.js
+    1.1optional - make node.js env variable
+2.run npm install -g pnpm
+3.run npm install
+4.run pnpm dev for running the app
+
+FOR INDEXING-APP
+1.optional - daca nu este creat python virtual env
+    1.1pentru a crea python virtual env ruleaza "python -m venv venv" in folderul "book-app/backend"
+    1.2pentru a activa vir env ruleaza "cmd" (iti schimba consola in comand line) si ruleaza ".\.venv\Scripts\activate.bat"
+2.optional - daca sunt librarii noi/nu sunt instalate
+    2.0 install microsoft c++ build tools "https://aka.ms/vs/17/release/vs_BuildTools.exe"
+        2.0.1.select the workspace component "desktop development with c++"
+    2.1 ruleaza "pip install -r requirements.txt"
+3.run "python indexing.py" and get an error
+4.click link and install google api
+5.repeat step 3 and 4
+6.run "python indexing.py" and get an error
